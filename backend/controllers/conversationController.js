@@ -81,22 +81,26 @@ const sendMessage = async (req, res) => {
             return res.status(400).json({ message: 'wa_id and body are required' });
         }
         
-        // This is a demo message, so we create a new one from "us"
         const newMessage = await Message.create({
-            // In a real app, you'd generate a unique ID
             message_id: `demo-${new mongoose.Types.ObjectId()}`,
             wa_id: wa_id,
             body: body,
             from_me: true,
-            status: 'sent', // Or 'delivered' if you prefer
+            status: 'sent',
             timestamp: new Date(),
         });
 
-        // On success, send back the newly created message with a 201 status
+        // --- DIAGNOSTIC LOGS ---
+console.log('Backend: Preparing to emit "newMessage" event.');
+console.log('Backend: Emitting this message object:', newMessage);
+// --- END DIAGNOSTIC LOGS ---
+        // --- WEBSOCKET EMIT ---
+        // Emit the new message to all connected clients
+        req.io.emit('newMessage', newMessage);
+
         res.status(201).json(newMessage);
 
     } catch (error) {
-        // This will now only catch other unexpected errors
         console.error(error);
         res.status(500).json({ message: 'Server Error' });
     }
