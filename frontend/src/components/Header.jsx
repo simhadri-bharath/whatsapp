@@ -10,25 +10,33 @@ const BackArrowIcon = () => (
 const Header = ({ name, number, status, onBack, theme, onThemeToggle }) => {
   return (
     <header className="flex items-center justify-between p-3 bg-[#f0f2f5] dark:bg-dark-primary border-b border-gray-300 dark:border-dark-secondary flex-shrink-0">
-      <div className="flex items-center">
+      
+      {/* --- User Info Section --- */}
+      {/* Added `flex-grow` to allow it to take up available space */}
+      <div className="flex items-center flex-grow min-w-0"> 
         {onBack && (
-          <button onClick={onBack} className="mr-4 md:hidden text-gray-600 dark:text-dark-text-secondary">
+          <button onClick={onBack} className="mr-2 md:hidden text-gray-600 dark:text-dark-text-secondary flex-shrink-0">
             <BackArrowIcon />
           </button>
         )}
-        <img src={defaultAvatar} alt="avatar" className="w-10 h-10 rounded-full" />
-        <div className="ml-4">
-          <h2 className="text-md font-semibold text-gray-700 dark:text-dark-text">{name}</h2>
-          <p className="text-xs text-gray-500 dark:text-dark-text-secondary">
+        <img src={defaultAvatar} alt="avatar" className="w-10 h-10 rounded-full flex-shrink-0" />
+        {/* Added `min-w-0` to allow text truncation if needed on very small screens */}
+        <div className="ml-3 min-w-0">
+          <h2 className="text-md font-semibold text-gray-700 dark:text-dark-text truncate">{name}</h2>
+          <p className="text-xs text-gray-500 dark:text-dark-text-secondary truncate">
             {number ? `+${number}` : status}
           </p>
         </div>
       </div>
 
+      {/* --- Theme Toggle Section --- */}
+      {/* Added `flex-shrink-0` to prevent this button from shrinking */}
       {onThemeToggle && (
-        <button onClick={onThemeToggle} className="p-2 rounded-full hover:bg-gray-300 dark:hover:bg-dark-hover text-gray-600 dark:text-dark-text-secondary">
-          {theme === 'light' ? <MoonIcon /> : <SunIcon />}
-        </button>
+        <div className="flex-shrink-0 ml-4">
+          <button onClick={onThemeToggle} className="p-2 rounded-full hover:bg-gray-300 dark:hover:bg-dark-hover text-gray-600 dark:text-dark-text-secondary">
+            {theme === 'light' ? <MoonIcon /> : <SunIcon />}
+          </button>
+        </div>
       )}
     </header>
   );
