@@ -4,8 +4,8 @@ This project is a full-stack, real-time chat application built as an evaluation 
 
 ## 🔴 Live Demo
 
-*   **Frontend (Vercel):** **[YOUR_FRONTEND_URL_HERE]**
-*   **Backend (Render):** **[YOUR_BACKEND_URL_HERE]**
+* **Frontend (Vercel):** **[https://whatsapp-puce-nine.vercel.app/]**
+* **Backend (Render):** **[https://whatsapp-api-bharath.onrender.com]**
 
 ## ✨ Screenshot
 
@@ -43,34 +43,34 @@ The project is built with a modern, professional full-stack tech stack.
 
 ## 🔌 API Endpoints
 
-The backend provides the following RESTful API endpoints.
-
 ### Get All Conversations
 
 - **Endpoint:** `GET /api/conversations`
 - **Description:** Retrieves a list of all unique conversations. Each conversation object includes the user's information and the last message sent in that chat for preview purposes.
 - **Success Response (200):**
-  ```json
-  [
-    {
-      "wa_id": "929967673820",
-      "name": "Neha Joshi",
-      "lastMessage": "Hi Neha! Absolutely. We offer curated home decor pieces...",
-      "lastMessageTimestamp": "2025-08-06T12:17:10.000Z"
-    },
-    {
-      "wa_id": "919937320320",
-      "name": "Ravi Kumar",
-      "lastMessage": "Hi Ravi! Sure, I’d be happy to help you with that...",
-      "lastMessageTimestamp": "2025-08-06T12:00:20.000Z"
-    }
-  ]
-  Get Messages for a Specific User
-Endpoint: GET /api/messages/:wa_id
-Description: Retrieves the full message history for a single conversation, identified by the user's wa_id. Also returns the user's information.
-Success Response (200):
-code
-Json
+```json
+[
+  {
+    "wa_id": "929967673820",
+    "name": "Neha Joshi",
+    "lastMessage": "Hi Neha! Absolutely. We offer curated home decor pieces...",
+    "lastMessageTimestamp": "2025-08-06T12:17:10.000Z"
+  },
+  {
+    "wa_id": "919937320320",
+    "name": "Ravi Kumar",
+    "lastMessage": "Hi Ravi! Sure, I’d be happy to help you with that...",
+    "lastMessageTimestamp": "2025-08-06T12:00:20.000Z"
+  }
+]
+```
+
+### Get Messages for a Specific User
+
+- **Endpoint:** `GET /api/messages/:wa_id`
+- **Description:** Retrieves the full message history for a single conversation, identified by the user's wa_id. Also returns the user's information.
+- **Success Response (200):**
+```json
 {
   "userInfo": {
     "name": "Ravi Kumar",
@@ -90,19 +90,21 @@ Json
     }
   ]
 }
-Send a New Message (Demo)
-Endpoint: POST /api/messages
-Description: Creates and saves a new message to the database. This simulates sending a message from the application user. After saving, a WebSocket event ('newMessage') is emitted to all clients.
-Request Body:
-code
-Json
+```
+
+### Send a New Message (Demo)
+
+- **Endpoint:** `POST /api/messages`
+- **Description:** Creates and saves a new message to the database. This simulates sending a message from the application user. After saving, a WebSocket event (`newMessage`) is emitted to all clients.
+- **Request Body:**
+```json
 {
   "wa_id": "919937320320",
   "body": "This is a test message from my app!"
 }
-Success Response (201):
-code
-Json
+```
+- **Success Response (201):**
+```json
 {
   "_id": "689b...",
   "message_id": "demo-689b...",
@@ -114,54 +116,72 @@ Json
   "createdAt": "...",
   "updatedAt": "..."
 }
-⚙️ Local Development Setup
-To run this project on your local machine, please follow these steps:
-Prerequisites
-Node.js (v20.x or higher recommended)
-npm (Node Package Manager)
-A free MongoDB Atlas account for the database.
-Backend Setup
-Navigate to the backend directory:
-code
-Bash
+```
+
+## ⚙️ Local Development Setup
+
+### Prerequisites
+
+- Node.js (v20.x or higher recommended)
+- npm (Node Package Manager)
+- A free MongoDB Atlas account for the database.
+
+### Backend Setup
+
+1. Navigate to the backend directory:
+```bash
 cd backend
-Create the environment file:
-Create a .env file in the backend directory and add your MongoDB connection string:
-code
-Code
+```
+
+2. Create the environment file (`.env`) and add your MongoDB connection string:
+```env
 MONGO_URI=your_mongodb_connection_string_here
 PORT=5001
-Install dependencies:
-code
-Bash
+```
+
+3. Install dependencies:
+```bash
 npm install
-Seed the database:
-This script will populate your MongoDB database with the sample chat data.
-code
-Bash
+```
+
+4. Seed the database with sample chat data:
+```bash
 npm run seed
-Start the development server:
-code
-Bash
+```
+
+5. Start the development server:
+```bash
 npm run dev
-The backend API will be running on http://localhost:5001.
-Frontend Setup
-Navigate to the frontend directory:
-code
-Bash
+```
+The backend API will be running on `http://localhost:5001`.
+
+### Frontend Setup
+
+1. Navigate to the frontend directory:
+```bash
 cd frontend
-Install dependencies:
-code
-Bash
+```
+
+2. Install dependencies:
+```bash
 npm install
-Start the development server:
-code
-Bash
+```
+
+3. Start the development server:
+```bash
 npm run dev
-The React application will open on http://localhost:5173 (or another available port). API requests from the frontend are automatically proxied to the backend thanks to the vite.config.js setup.
-🚢 Deployment
+```
+The React application will open on `http://localhost:5173` (or another available port). API requests from the frontend are automatically proxied to the backend thanks to the `vite.config.js` setup.
+
+## 🚢 Deployment
+
 This project is deployed in two parts, following modern best practices for full-stack applications:
-Backend (Node.js API): Deployed as a Web Service on Render. The Root Directory is set to /backend, and the MONGO_URI is configured as a secret environment variable.
-Frontend (React App): Deployed as a static site on Vercel. The Root Directory is set to /frontend, and the VITE_API_URL environment variable is configured to point to the live Render backend URL.
+
+- **Backend (Node.js API):** Deployed as a Web Service on Render. The Root Directory is set to `/backend`, and the `MONGO_URI` is configured as a secret environment variable.
+- **Frontend (React App):** Deployed as a static site on Vercel. The Root Directory is set to `/frontend`, and the `VITE_API_URL` environment variable is configured to point to the live Render backend URL.
+
 This separation ensures scalability, performance, and follows a professional CI/CD pipeline where pushes to the main branch trigger automatic redeployments.
-Author: Bharath Simhadri
+
+---
+
+**Author:** Bharath Simhadri
