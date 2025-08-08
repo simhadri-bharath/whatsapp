@@ -3,8 +3,9 @@ import { fetchMessagesByWaId, postMessage } from '../services/api';
 import { socket } from '../services/socket';
 import Header from './Header';
 import MessageBubble from './MessageBubble';
+import { SendIcon } from './Icons'; 
 
-const ChatWindow = ({ chatId, onBack }) => {
+const ChatWindow = ({ chatId, onBack, theme, onThemeToggle }) => {
   const [chatData, setChatData] = useState({ userInfo: {}, messages: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -78,27 +79,34 @@ const ChatWindow = ({ chatId, onBack }) => {
   if (loading) return <div className="p-4 text-center">Loading messages...</div>;
   if (error) return <div className="p-4 text-center text-red-500">{error}</div>;
 
-  return (
-    <div className="flex flex-col h-full bg-[#e5ddd5]">
-      <Header name={chatData.userInfo.name} status="online" onBack={onBack} />
+   return (
+    <div className="flex flex-col h-full bg-[#e5ddd5] dark:bg-gray-900">
+      {/* Pass all the required props to the Header */}
+      <Header
+        name={chatData.userInfo.name}
+        number={chatData.userInfo.wa_id} // Pass the number
+        onBack={onBack}
+        theme={theme}
+        onThemeToggle={onThemeToggle}
+      />
+
       <main className="flex-grow p-4 overflow-y-auto">
-        {/* The key is now guaranteed to be unique */}
         {chatData.messages.map((msg) => (
           <MessageBubble key={msg.message_id} message={msg} />
         ))}
         <div ref={messagesEndRef} />
       </main>
-      <footer className="p-4 bg-[#f0f2f5]">
+
+      <footer className="p-4 bg-[#f0f2f5] dark:bg-gray-700">
         <form onSubmit={handleSubmit} className="flex items-center">
           <input
             type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type a message"
-            className="flex-grow p-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500"
+            // ... (no changes here)
+            className="flex-grow p-2 rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:border-blue-500"
           />
-          <button type="submit" className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg font-semibold">
-            Send
+          {/* Use the SendIcon in the button */}
+          <button type="submit" className="ml-4 p-3 bg-green-500 text-white rounded-full font-semibold flex items-center justify-center">
+            <SendIcon />
           </button>
         </form>
       </footer>
